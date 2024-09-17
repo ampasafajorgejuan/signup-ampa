@@ -105,7 +105,7 @@ function processAndSend() {
             nombre: $("#apellido"+sufix).val() + ", " + $("#nombre"+sufix).val(),
             curso: $("#curso"+sufix).val(),
             ampa: isAMPA,
-            titular: $("#titular").val(),
+            titular: $("#titular").val().toUpperCase(),
             nif: $("#nif").val(),
             iban: $("#iban").val(),
             email1: $("#email1").val(),

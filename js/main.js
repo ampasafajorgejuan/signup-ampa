@@ -41,6 +41,7 @@ $(function() {
        //alert (this.id)
        //set id to store the updated section number
        var newId = this.id + nHijos.length;
+       if (newId == "nombre1") $(this).on('change', updateCuota());
 
        //update for label
        $(this).siblings('label').attr('for', newId);
@@ -443,4 +444,9 @@ function mod97(string) {
 function getnumIBAN(letra) {
     ls_letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     return ls_letras.search(letra) + 10;
+}
+
+function updateCuota(letra) {
+    var texto = $(".tyc").html();
+    if (texto) $(".tyc").html(texto.replace("50€","65€"));
 }

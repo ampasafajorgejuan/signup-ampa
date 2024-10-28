@@ -456,7 +456,7 @@ $(document).ready(function(){
       var file = this.id;
 	$.ajax({
 	    method: "GET",
-	    url: "/copys/"+file+".txt"
+	    url: "copys/"+file+".txt"
 	})
 	  .done(function(data){
 	    $(file).html(postProcess(data[0]));

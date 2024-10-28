@@ -459,7 +459,7 @@ $(document).ready(function(){
 	    url: "copys/"+file+".txt"
 	})
 	  .done(function(data){
-	    $(file).html(postProcess(data[0]));
+	    $("#"+file).html(postProcess(data));
 	})
   })
 });

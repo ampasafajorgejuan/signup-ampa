@@ -452,18 +452,17 @@ function updateCuota(letra) {
 }
 
 $(document).ready(function(){
-  $(".copy").html(loadCopy(this.id))
+  $(".copy").html(function(){
+      var file = this.id;
+	$.ajax({
+	    method: "GET",
+	    url: "/copys/"+file+".txt"
+	})
+	  .done(function(data){
+	    $(file).html(postProcess(data[0]));
+	})
+  })
 });
-
-function loadCopy(file) {
-  $.ajax({
-    method: "GET",
-    url: "/copys/"+file+".txt"
-  })
-  .done(function(data){
-    $(file).html(postProcess(data[0]));
-  })
-}
 
 function postProcess(texto) {
     // Expresión regular para encontrar direcciones de correo electrónico

@@ -450,3 +450,35 @@ function updateCuota(letra) {
     var texto = $(".tyc").html();
     if (texto) $(".tyc").html(texto.replace("50€","65€"));
 }
+
+$(document).ready(function(){
+  $(".copy").html(loadCopy(this.id))
+});
+
+function loadCopy(file) {
+  $.ajax({
+    method: "GET",
+    url: "/copys/"+file+".txt"
+  })
+  .done(function(data){
+    $(file).html(postProcess(data[0]));
+  })
+}
+
+function postProcess(texto) {
+    // Expresión regular para encontrar direcciones de correo electrónico
+    const regexEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    const regexParentesis = /\((.*?)\)/g;
+    
+    // Reemplazar cada dirección de correo electrónico encontrada por un enlace HTML
+    var textoModificado = texto.replace(regexEmail, (email) => {
+        return `<a href="mailto:${email}">${email}</a>`;
+    });
+
+    // Reemplazar el texto entre paréntesis por el mismo texto envuelto en <strong>
+    textoModificado = texto.replace(regexParentesis, (coincidencia, contenido) => {
+        return `(<strong>${contenido}</strong>)`;
+    });
+
+    return textoModificado;
+}

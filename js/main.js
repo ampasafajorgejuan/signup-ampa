@@ -475,7 +475,7 @@ function postProcess(texto) {
     });
 
     // Reemplazar el texto entre paréntesis por el mismo texto envuelto en <strong>
-    textoModificado = texto.replace(regexParentesis, (coincidencia, contenido) => {
+    textoModificado = textoModificado.replace(regexParentesis, (coincidencia, contenido) => {
         return `(<strong>${contenido}</strong>)`;
     });
 

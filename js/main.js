@@ -87,6 +87,8 @@ function customValidation() {
 
 function processAndSend() {
 
+  const hoy = new Date();
+
   $('#modalCenter').modal();
 
   var nHijos = $('.rowHijo');
@@ -98,39 +100,37 @@ function processAndSend() {
       var resHijos = "Hemos inscrito en la AMPA a {numHijos}.<br>Nos vemos en el cole.";
       var sufix = "";
       if (i>0) sufix = i;
-        // Do an AJAX post
-        $.ajax({
-          type: "POST",
-          url: "https://formbold.com/s/9x2zW",
-          data: {
-            nombre: $("#apellido"+sufix).val() + ", " + $("#nombre"+sufix).val(),
-            curso: $("#curso"+sufix).val(),
-            ampa: isAMPA,
-            titular: $("#titular").val().toUpperCase(),
-            nif: $("#nif").val(),
-            iban: $("#iban").val(),
-            email1: $("#email1").val(),
-            email2: $("#email2").val()
-          },
-          success: function(data) {
-            // POST was successful - do something with the response
-            if (nrecord>-1) nrecord++;
-            if (nrecord === nHijos.length)
-            {
-              $(".loader").addClass('d-none');
-              $(".res-loader-ok").removeClass('d-none');
-              if (nrecord === 1) { $("#resHijos").html(resHijos.replace("{numHijos}", "tu hijo")); }
-              else { $("#resHijos").html(resHijos.replace("{numHijos}","tus "+nrecord+" hijos")); }
-            }
-          },
-          error: function(data) {
-            // Server error, e.g. 404, 500, error
-            //alert ("fail after: "+ nrecord)
-            nrecord = -1;
+
+        var form_n = "form_"+sufix;
+        addForm("form_"+sufix);
+        document.getElementById(form_n+"gNif").value =  $("#nif").val();
+        document.getElementById(form_n+"gIsAMPA").value = isAMPA;
+        document.getElementById(form_n+"gInscripcion").value = "SI";
+        document.getElementById(form_n+"gIban").value =  $("#iban").val().replace(/\s+/g, '');
+        document.getElementById(form_n+"gFechaAlta").value =  hoy.getFullYear()+"-"+String(hoy.getMonth() + 1).padStart(2, '0')+"-"+String(hoy.getDate()).padStart(2, '0');
+        document.getElementById(form_n+"gCurso").value = $("#curso"+sufix).val();
+        document.getElementById(form_n+"gEmail1").value =  $("#email1").val();
+        document.getElementById(form_n+"gEmail2").value = $("#email2").val();
+        document.getElementById(form_n+"gNombreApellido").value = $("#apellido"+sufix).val().trim() + ", " + $("#nombre"+sufix).val().trim();
+        document.getElementById(form_n+"gTitular").value = $("#titular").val().toUpperCase();
+
+        // Return a String with a Bic code
+      	var formToSubmit = document.getElementById(form_n);
+      	formToSubmit.submit();
+
+        setTimeout(function(){
+
+          // POST was successful - do something with the response
+          if (nrecord>-1) nrecord++;
+          if (nrecord === nHijos.length)
+          {
             $(".loader").addClass('d-none');
-            $(".res-loader-nok").removeClass('d-none');
+            $(".res-loader-ok").removeClass('d-none');
+            if (nrecord === 1) { $("#resHijos").html(resHijos.replace("{numHijos}", "tu hijo")); }
+            else { $("#resHijos").html(resHijos.replace("{numHijos}","tus "+nrecord+" hijos")); }
           }
-        });
+
+       },1500);
 
     }
 
@@ -468,7 +468,7 @@ function postProcess(texto) {
     // Expresión regular para encontrar direcciones de correo electrónico
     const regexEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
     const regexParentesis = /\((.*?)\)/g;
-    
+
     // Reemplazar cada dirección de correo electrónico encontrada por un enlace HTML
     var textoModificado = texto.replace(regexEmail, (email) => {
         return `<a href="mailto:${email}">${email}</a>`;

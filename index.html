@@ -30,7 +30,7 @@
 
   <div class="half">
     <div class="contents order-2 order-md-1">
-      <div class="container">
+      <div class="container" id="formContainer">
         <div class="row align-items-center justify-content-center">
           <div class="" style="margin: 0 1.5em;">
             <div class="align-items-center" style="
@@ -42,11 +42,13 @@
             <h1>Inscripción de nuevos asociados</h1>
             <p class="mb-4">Bienvenidos a la Asociación de Madres y Padres de Alumnos del Colegio Sagrada Familia de Jorge Juan de Madrid. Rellena los siguientes datos para que podamos registrar a tu familia como miembro de la asociación. </p>
             <p class="mb-4 copy" id="aviso" style="border: black solid 2px; background: #fff; padding: 1em;">Los datos proporcionados en este formulario se incorporarán a nuestra base de datos y se utilizarán para cargar en la cuenta bancaria los recibos correspondientes a la cuota de socio para el próximo curso y siguientes. Si desea formar parte de la asociación ya durante este curso 2024/2025 deberá hacer una transferencia por el importe de la cuota (50€ las familias con un único alumno y 65€ familias con 2 o más) a nombre de la Asociación en el número de cuenta ES47 0075 0103 0906 0095 5538, indicando en CONCEPTO el nombre de su(s) hijo(s) y hacernos llegar el justificante al correo electrónico <a href="mailto:asociados@ampasafajorgejuan.es">asociados@ampasafajorgejuan.es</a></p>
-              <form class="needs-validation" novalidate>
+              <form enctype="text/plain" action="GOOGLE_FORM_URL" target="hidden_iframe" class="needs-validation" novalidate>
+
               <div class="row justify-content-start">
                 <div class="col-md-auto">
                   <p style="font-weight: normal">¿Alguno de sus hijos es ya miembro de la asociación en este curso?</p>
                 </div>
+                <input type="hidden" name="isAMPA" id="isAMPA" value="">
                 <div class="col-md-auto">
                   <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" value="" id="checkSiAMPA" name="eraAMPA" required>
@@ -66,6 +68,7 @@
               <p class="mb-3">Añade una línea por cada hijo nuevo en el centro. No es necesario que rellenes los hijos que ya estuvieran el año pasado como miembros del AMPA.</p>
               <div id="groupHijos">
                 <div class="row rowHijo" data-additional-field-row id="datosHijo">
+                  <input type="hidden" id="nombreApellido" name="nombreApellido">
                   <div class="col-md-4">
                     <div class="form-group first">
                       <label for="nombre">Nombre</label>
@@ -172,7 +175,7 @@
                   <div class="form-group first">
                     <label for="iban">IBAN de la cuenta de cargo</label>
                     <!--<input type="text" class="form-control" placeholder="e.g. ES12 1234 1234 0012 3456 7890" id="iban" name="iban">-->
-                    <input class="magic form-control" id="iban" type="zip" placeholder="e.g. ES12 1234 1234 0012 3456 7890" autocomplete="off" data-config="{&quot;merge&quot;: true,&quot;ibans&quot;: {&quot;EG&quot;: 27}}" data-ddg-inputtype="unknown" required>
+                    <input class="magic form-control" id="iban" name="iban" type="zip" placeholder="e.g. ES12 1234 1234 0012 3456 7890" autocomplete="off" data-config="{&quot;merge&quot;: true,&quot;ibans&quot;: {&quot;EG&quot;: 27}}" data-ddg-inputtype="unknown" required>
                     <div class="invalid-feedback">
                       Por favor, introduzca un IBAN correcto
                     </div>
@@ -243,5 +246,9 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/gform.js"></script>
+    <script type="module">
+    import bicFromIban from 'https://cdn.jsdelivr.net/npm/bic-from-iban@1.0.0/+esm'
+    </script>
   </body>
 </html>
